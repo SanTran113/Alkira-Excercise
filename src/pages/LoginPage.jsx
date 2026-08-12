@@ -1,29 +1,32 @@
-// import App from "../App";
+import { useNavigate } from "react-router-dom";
 import usersList from "../data/users.jsx";
 
-const handleLogin = (username, password) => {
-  if (!username || !password) {
-    alert("Please fill in all fields.");
-    return;
-  }
-
-  const user = usersList.find((user) => user.username === username);
-
-  if (!user) {
-    alert("Invalid username or password.");
-    return;
-  }
-
-  if (user.password !== password) {
-    alert("Invalid username or password.");
-    return;
-  }
-
-  // Login successful
-  alert("Login successful!");
-};
-
 function LoginPage() {
+  const navigate = useNavigate();
+
+  const handleLogin = (username, password) => {
+    if (!username || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const user = usersList.find((user) => user.username === username);
+
+    if (!user) {
+      alert("Invalid username or password.");
+      return;
+    }
+
+    if (user.password !== password) {
+      alert("Invalid username or password.");
+      return;
+    }
+
+    // Login successful
+    alert("Login successful!");
+    navigate("/main");
+  };
+
   return (
     <div className="login-container">
       <form
@@ -38,7 +41,7 @@ function LoginPage() {
         <input type="password" id="password" name="password" required />
         <button type="submit">Login</button>
       </form>
-      <button type="submit" onClick={() => window.location.hash = '/signup'}>
+      <button type="submit" onClick={() => (window.location.hash = "/signup")}>
         Signup
       </button>
       {/* <App user={username} /> */}
