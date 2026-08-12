@@ -25,7 +25,7 @@ const handleLogin = (username, password) => {
 
 function LoginPage() {
   return (
-    <div>
+    <div className="login-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
