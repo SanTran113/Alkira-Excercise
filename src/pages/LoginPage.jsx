@@ -4,7 +4,7 @@ import { useAuth } from "../components/AuthContext.jsx";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const login = useAuth();
+  const { login }= useAuth();
 
   const handleLogin = (username, password) => {
     if (!username || !password) {
