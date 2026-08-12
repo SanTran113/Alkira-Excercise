@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import usersList from "../data/users.jsx";
+import { useAuth } from "../components/AuthContext.jsx";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const login = useAuth();
 
   const handleLogin = (username, password) => {
     if (!username || !password) {
@@ -22,8 +24,7 @@ function LoginPage() {
       return;
     }
 
-    // Login successful
-    alert("Login successful!");
+    login(username); // updates context and localStorage
     navigate("/main");
   };
 
@@ -44,7 +45,6 @@ function LoginPage() {
       <button type="submit" onClick={() => (window.location.hash = "/signup")}>
         Signup
       </button>
-      {/* <App user={username} /> */}
     </div>
   );
 }
