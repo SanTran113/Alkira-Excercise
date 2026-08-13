@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import usersList from "../data/users.jsx";
 import { useAuth } from "../components/AuthContext.jsx";
 
 function LoginPage() {
@@ -12,19 +11,7 @@ function LoginPage() {
       return;
     }
 
-    const user = usersList.find((user) => user.username === username);
-
-    if (!user) {
-      alert("Invalid username or password.");
-      return;
-    }
-
-    if (user.password !== password) {
-      alert("Invalid username or password.");
-      return;
-    }
-
-    login(username); // updates context and localStorage
+    login(username, password); // updates context and localStorage
     navigate("/main");
   };
 

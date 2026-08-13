@@ -1,10 +1,12 @@
 import { useState } from "react";
 import users from "../data/users.jsx";
 import { Roles, RolesList } from "../data/users.jsx";
+import { useAuth } from "../components/AuthContext.jsx";
 
 function SignupPage() {
   const [usersList, setUsersList] = useState(users);
   const [role, setRole] = useState(Roles.GUEST);
+  const { signup } = useAuth();
 
   const handleSignup = (username, password, role) => {
     // check if user alr exists
@@ -20,7 +22,8 @@ function SignupPage() {
       return;
     }
 
-    setUsersList([...usersList, { username, password, role }]);
+    signup(username, password, role); // updates context and localStorage
+    alert("Signup successful! Please login.");
   };
 
   return (
