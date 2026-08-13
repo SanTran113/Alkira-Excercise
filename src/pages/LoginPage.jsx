@@ -30,6 +30,7 @@ function LoginPage() {
 
   return (
     <div className="login-container">
+      <h1>Login Page</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();

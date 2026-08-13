@@ -1,7 +1,9 @@
 export const Roles = {
-  ADMIN: "admin",
-  GUEST: "guest",
+  ADMIN: "Admin",
+  GUEST: "Guest",
 };
+
+export const RolesList = Object.values(Roles);
 
 const users = [
   {
