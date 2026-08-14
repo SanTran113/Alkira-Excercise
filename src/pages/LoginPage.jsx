@@ -11,8 +11,14 @@ function LoginPage() {
       return;
     }
 
-    login(username, password); // updates context and localStorage
-    navigate("/main");
+    const result = login(username, password); // updates context and localStorage
+    if (!result.success) {
+      alert(result.error);
+      return;
+    } else {
+      navigate("/main");
+    }
+    
   };
 
   return (

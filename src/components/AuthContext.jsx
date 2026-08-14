@@ -3,58 +3,68 @@ import staticUsersList from "../data/users.jsx";
 
 const AuthContext = createContext();
 
-export function AuthProvider({children}) {
-    const [user, setUser] = useState(() => localStorage.getItem('loggedIn') || null);
-    const [usersList, setUsersList] = useState(staticUsersList);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(
+    () => localStorage.getItem("loggedIn") || null,
+  );
+  const [usersList, setUsersList] = useState(() => {
+    const storedSignedUpUsers = JSON.parse(localStorage.getItem("signedUpUsers") || "[]");
+    return [...staticUsersList, ...storedSignedUpUsers];
+  });
 
-    console.log("usersList", usersList);
+  console.log("usersList", usersList);
 
-    /**
-     * checks the user is able to login based on the credientials.
-     * @param {*} username 
-     * @returns true or false if successful
-     */
-    const login = (username, password) => {
-        const findUser = usersList.find((u) => u.username === username);
+  /**
+   * checks the user is able to login based on the credientials.
+   * @param {*} username, password
+   * @returns true or false if successful
+   */
+  const login = (username, password) => {
+    const findUser = usersList.find((u) => u.username === username);
 
-        if (!findUser) {
-        alert("Invalid username.");
-        return;
-        }
-
-        if (findUser.password !== password) {
-        alert("Invalid password.");
-        return;
-        }
-
-
-        localStorage.setItem("loggedIn", username);
-        setUser(username);
+    if (!findUser) {
+      return { success: false, error: "Invalid username." };
     }
 
-    const signup = (username, password, role) => {
-        const newUser = { username, password, role };
-        const newUserList = [...staticUsersList, newUser];
-        setUsersList(newUserList);
-
-        const findSignedUpUsers = newUserList.filter(
-            (u) => !staticUsersList.some((su) => su.username === u.username)
-        );
-        localStorage.setItem("signedUpUsers", JSON.stringify(findSignedUpUsers));
+    if (findUser.password !== password) {
+      return { success: false, error: "Invalid password." };
     }
 
-    const logout = () => {
-        localStorage.removeItem("loggedIn");
-        setUser(null);
+    localStorage.setItem("loggedIn", username);
+    setUser(username);
+    return { success: true };
+  };
+
+  const signup = (username, password, role) => {
+    const findUser = usersList.find((u) => u.username === username);
+
+    if (findUser) {
+      return { success: false, error: "Username already exists." };
     }
 
-    return (
-        <AuthContext.Provider value={{ user, usersList, login, signup, logout }}>
-            {children}
-        </AuthContext.Provider>
+    const newUser = { username, password, role };
+    const newUserList = [...usersList, newUser];
+    setUsersList(newUserList);
+
+    const findSignedUpUsers = newUserList.filter(
+      (u) => !staticUsersList.some((su) => su.username === u.username),
     );
+    localStorage.setItem("signedUpUsers", JSON.stringify(findSignedUpUsers));
+    return { success: true };
+  };
+
+  const logout = () => {
+    localStorage.removeItem("loggedIn");
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, usersList, login, signup, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }
