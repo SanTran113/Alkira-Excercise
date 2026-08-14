@@ -8,7 +8,9 @@ export function AuthProvider({ children }) {
     () => localStorage.getItem("loggedIn") || null,
   );
   const [usersList, setUsersList] = useState(() => {
-    const storedSignedUpUsers = JSON.parse(localStorage.getItem("signedUpUsers") || "[]");
+    const storedSignedUpUsers = JSON.parse(
+      localStorage.getItem("signedUpUsers") || "[]",
+    );
     return [...staticUsersList, ...storedSignedUpUsers];
   });
 
@@ -30,8 +32,10 @@ export function AuthProvider({ children }) {
       return { success: false, error: "Invalid password." };
     }
 
-    localStorage.setItem("loggedIn", username);
-    setUser(username);
+    const { password: pw, ...safeUser } = findUser;
+
+    localStorage.setItem("loggedIn", JSON.stringify(safeUser));
+    setUser(safeUser);
     return { success: true };
   };
 

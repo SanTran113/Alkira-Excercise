@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Roles, RolesList } from "../data/users.jsx";
+import { ROLES, RolesList } from "../data/users.jsx";
 import { useAuth } from "../components/AuthContext.jsx";
 
 function SignupPage() {
-  const [role, setRole] = useState(Roles.GUEST);
+  const [role, setRole] = useState(ROLES.GUEST);
   const { signup } = useAuth();
 
   const handleSignup = (username, password, role) => {

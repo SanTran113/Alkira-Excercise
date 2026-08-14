@@ -1,25 +1,25 @@
-export const Roles = {
+export const ROLES = {
   ADMIN: "Admin",
   GUEST: "Guest",
 };
 
-export const RolesList = Object.values(Roles);
+export const RolesList = Object.values(ROLES);
 
 const users = [
   {
     username: "1",
     password: "1",
-    role: Roles.GUEST,
+    role: ROLES.GUEST,
   },
   {
     username: "tomHolland",
     password: "spiderman123",
-    role: Roles.GUEST,
+    role: ROLES.GUEST,
   },
   {
     username: "homer",
     password: "theOdyssey",
-    role: Roles.ADMIN,
+    role: ROLES.ADMIN,
   },
 ];
 
