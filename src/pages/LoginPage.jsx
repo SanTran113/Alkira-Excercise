@@ -16,7 +16,7 @@ function LoginPage() {
       alert(result.error);
       return;
     } else {
-      navigate("/main");
+      navigate("/mfa");
     }
     
   };
