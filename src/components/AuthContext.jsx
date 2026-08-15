@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import staticUsersList from "../data/users.jsx";
+import { sendOTP, verifyOTP } from "../services/mfaService.jsx";
 
 const AuthContext = createContext();
 
@@ -7,6 +8,9 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(
     () => localStorage.getItem("loggedIn") || null,
   );
+  const [pendingUser, setPendingUser] = useState(null);
+  const [otp, setOtp] = useState(null);
+
   const [usersList, setUsersList] = useState(() => {
     const storedSignedUpUsers = JSON.parse(
       localStorage.getItem("signedUpUsers") || "[]",
@@ -14,13 +18,7 @@ export function AuthProvider({ children }) {
     return [...staticUsersList, ...storedSignedUpUsers];
   });
 
-  console.log("usersList", usersList);
-
-  /**
-   * checks the user is able to login based on the credientials.
-   * @param {*} username, password
-   * @returns true or false if successful
-   */
+  // checks the user is able to login based on the credientials.
   const login = (username, password) => {
     const findUser = usersList.find((u) => u.username === username);
 
@@ -34,9 +32,40 @@ export function AuthProvider({ children }) {
 
     const { password: pw, ...safeUser } = findUser;
 
-    localStorage.setItem("loggedIn", JSON.stringify(safeUser));
-    setUser(safeUser);
+    setPendingUser(safeUser);
     return { success: true };
+  };
+
+  const requestMfaCode = async () => {
+    if (!pendingUser) {
+      return { success: false, error: "No pending login." };
+    }
+
+    const { code, expiresAt } = await sendOTP(pendingUser.username);
+    setOtp(code, expiresAt);
+    return { success: true, demoCode: code };
+  };
+
+  const verifyMfaCode = (inputCode) => {
+    if (!otp || !pendingUser) {
+      return { success: false, error: "Code could not be generated." };
+    }
+
+    const result = verifyOTP(inputCode, otp.code, otp.expiresAt);
+    if (!result.success) {
+      return result;
+    }
+
+    localStorage.setItem("loggedIn", JSON.stringify(pendingUser));
+    setUser(pendingUser);
+    setPendingUser(null);
+    setOtp(null);
+    return { success: true };
+  };
+
+  const cancelMfa = () => {
+    setPendingUser(null);
+    setOtp(null);
   };
 
   const signup = (username, password, role) => {
@@ -63,7 +92,18 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, usersList, login, signup, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        usersList,
+        login,
+        signup,
+        logout,
+        requestMfaCode,
+        verifyMfaCode,
+        cancelMfa,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
