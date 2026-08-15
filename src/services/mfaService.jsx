@@ -1,14 +1,14 @@
 const OTP_TIME = 30_000;
 
 function generateOTP() {
-    return Math.floor(100000 + Math.random()*900000).toString;
+    return Math.floor(100000 + Math.random()*900000).toString();
 }
 
 export function sendOTP (username) {
     const code = generateOTP();
     const expiresAt = Date.now() +  OTP_TIME;
 
-    return Promise((resolve) => {
+    return new Promise((resolve) => {
         setTimeout(() => {
             console.log(`Sending OTP for ${username}: ${code}`);
             resolve({ code, expiresAt});
@@ -17,8 +17,8 @@ export function sendOTP (username) {
 }
 
 export function verifyOTP (inputCode, activeCode, expiresAt) {
-    if (expiresAt > Date.now()) {
-        return { sucess: false, error: "Code is exoires. Please Try Again."}
+    if (expiresAt < Date.now()) {
+        return { success: false, error: "Code is expired. Please Try Again."}
     }
 
     if (inputCode !== activeCode) {

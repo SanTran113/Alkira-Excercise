@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext.jsx";
 
@@ -6,12 +6,22 @@ function MfaPage() {
   const navigate = useNavigate();
   const [code, setCode] = useState(null);
   const [error, setError] = useState("");
-  const {requestMfaCode, verifyMfaCode, cancelMfa} = useAuth();
+  const { pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } = useAuth();
+
+    console.log("code", code);
+  
+  useEffect(() => {
+    if (!pendingUser) {
+      cancelMfa();
+      navigate("/");
+    }
+  }, [pendingUser, navigate, cancelMfa]);
 
   const handleSendCode = async () => {
     setError("");
     const sendResult = await requestMfaCode();
-    setCode(sendResult);
+
+    setCode(sendResult.code);
   };
 
   const handleVerifyMfaCode = (code) => {
@@ -21,7 +31,7 @@ function MfaPage() {
     }
 
     const verifyResult = verifyMfaCode(code);
-    if (!verifyResult) {
+    if (!verifyResult.success) {
       setError(verifyResult.error);
       return;
     }
@@ -38,9 +48,9 @@ function MfaPage() {
       <div>
         <h1>MFA Page</h1>
         {code && (
-            <div>
-                Code: <p id="code">code</p>
-            </div>
+          <div>
+            Code: <p id="code">{code}</p>
+          </div>
         )}
         <form
           onSubmit={(e) => {
@@ -57,11 +67,11 @@ function MfaPage() {
             maxLength={6}
             required
           />
-          {error && <p class="error-text">{error}</p>}
+          {error && <p id="error-text">{error}</p>}
           <button type="submit">Verify</button>
         </form>
         <button onClick={handleSendCode}>Resend Code</button>
-        <button onClick={handleCancelMfa}>Cancel`</button>
+        <button onClick={handleCancelMfa}>Cancel</button>
       </div>
     </>
   );

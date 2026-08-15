@@ -10,13 +10,16 @@ export function AuthProvider({ children }) {
   );
   const [pendingUser, setPendingUser] = useState(null);
   const [otp, setOtp] = useState(null);
-
   const [usersList, setUsersList] = useState(() => {
     const storedSignedUpUsers = JSON.parse(
       localStorage.getItem("signedUpUsers") || "[]",
     );
     return [...staticUsersList, ...storedSignedUpUsers];
   });
+
+  console.log("usersList", usersList);
+  console.log("pending", pendingUser);
+  console.log("otp", otp);
 
   // checks the user is able to login based on the credientials.
   const login = (username, password) => {
@@ -42,8 +45,8 @@ export function AuthProvider({ children }) {
     }
 
     const { code, expiresAt } = await sendOTP(pendingUser.username);
-    setOtp(code, expiresAt);
-    return { success: true, demoCode: code };
+    setOtp({ code, expiresAt });
+    return { success: true, code: code };
   };
 
   const verifyMfaCode = (inputCode) => {
@@ -56,8 +59,8 @@ export function AuthProvider({ children }) {
       return result;
     }
 
-    localStorage.setItem("loggedIn", JSON.stringify(pendingUser));
     setUser(pendingUser);
+    localStorage.setItem("loggedIn", JSON.stringify(user));
     setPendingUser(null);
     setOtp(null);
     return { success: true };
@@ -94,7 +97,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        pendingUser,
         usersList,
         login,
         signup,
