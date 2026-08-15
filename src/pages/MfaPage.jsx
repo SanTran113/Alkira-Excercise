@@ -6,12 +6,12 @@ function MfaPage() {
   const navigate = useNavigate();
   const [code, setCode] = useState(null);
   const [error, setError] = useState("");
-  const { pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } = useAuth();
+  const { user, pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } = useAuth();
 
     console.log("code", code);
   
   useEffect(() => {
-    if (!pendingUser) {
+    if (!pendingUser && !user) {
       cancelMfa();
       navigate("/");
     }
