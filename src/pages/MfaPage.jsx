@@ -12,7 +12,6 @@ function MfaPage() {
 
   console.log("code", code);
 
-  
   useEffect(() => {
     if (!pendingUser && !user) {
       cancelMfa();
@@ -26,6 +25,13 @@ function MfaPage() {
       handleSendCode();
     }
   });
+
+  const handleSendCode = async () => {
+    setError("");
+    const sendResult = await requestMfaCode();
+
+    setCode(sendResult.code);
+  };
 
   const handleVerifyMfaCode = (code) => {
     if (!code) {
