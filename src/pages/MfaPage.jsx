@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext.jsx";
 
@@ -6,23 +6,26 @@ function MfaPage() {
   const navigate = useNavigate();
   const [code, setCode] = useState(null);
   const [error, setError] = useState("");
-  const { user, pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } = useAuth();
+  const { user, pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } =
+    useAuth();
+  const hasSentCode = useRef(false);
 
-    console.log("code", code);
+  console.log("code", code);
+
   
   useEffect(() => {
     if (!pendingUser && !user) {
       cancelMfa();
       navigate("/");
     }
-  }, [pendingUser, navigate, cancelMfa]);
+  }, [user, pendingUser, navigate, cancelMfa]);
 
-  const handleSendCode = async () => {
-    setError("");
-    const sendResult = await requestMfaCode();
-
-    setCode(sendResult.code);
-  };
+  useEffect(() => {
+    if (pendingUser && !hasSentCode.current) {
+      hasSentCode.current = true;
+      handleSendCode();
+    }
+  });
 
   const handleVerifyMfaCode = (code) => {
     if (!code) {
