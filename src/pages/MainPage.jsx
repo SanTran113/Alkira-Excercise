@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext.jsx";
 import { ROLES } from "../data/users.jsx";
@@ -12,16 +12,22 @@ import {
 function MainPage() {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
-  const [connections, setConnections] = useState(mockConnections);
-  const [isEditing, setIsEditing] = useState(false); 
-  const [drafts, setDrafts] = useState({}); 
+  const [connections, setConnections] = useState(() => {
+    const saved = localStorage.getItem("connections");
+    return saved ? JSON.parse(saved) : mockConnections;
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [drafts, setDrafts] = useState({});
 
   const isAdmin = user?.role === ROLES.ADMIN;
-  console.log(user.role);
+
+  useEffect(() => {
+    localStorage.setItem("connections", JSON.stringify(connections));
+  }, [connections]);
 
   const startEditing = () => {
     const initalConnections = Object.fromEntries(
-      connections.map((c) => [c.id, { ...c }])
+      connections.map((c) => [c.id, { ...c }]),
     );
     setDrafts(initalConnections);
     setIsEditing(true);
@@ -35,9 +41,7 @@ function MainPage() {
   };
 
   const saveRow = (id) => {
-    setConnections((prev) =>
-      prev.map((c) => (c.id === id ? drafts[id] : c))
-    );
+    setConnections((prev) => prev.map((c) => (c.id === id ? drafts[id] : c)));
     setDrafts((prev) => {
       const next = { ...prev };
       delete next[id];
@@ -64,7 +68,7 @@ function MainPage() {
   const handleEditAgain = (id) => {
     const original = connections.find((c) => c.id === id);
     setDrafts((prev) => ({
-      ...prev, 
+      ...prev,
       [id]: { ...original },
     }));
   };
@@ -95,7 +99,9 @@ function MainPage() {
                   {rowInEdit ? (
                     <input
                       value={d.name}
-                      onChange={(e) => updateDraft(c.id, "name", e.target.value)}
+                      onChange={(e) =>
+                        updateDraft(c.id, "name", e.target.value)
+                      }
                     />
                   ) : (
                     c.name
@@ -105,10 +111,14 @@ function MainPage() {
                   {rowInEdit ? (
                     <select
                       value={d.type}
-                      onChange={(e) => updateDraft(c.id, "type", e.target.value)}
+                      onChange={(e) =>
+                        updateDraft(c.id, "type", e.target.value)
+                      }
                     >
                       {ConnectionTypesList.map((t) => (
-                        <option key={t} value={t}>{t}</option>
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
                       ))}
                     </select>
                   ) : (
@@ -119,10 +129,14 @@ function MainPage() {
                   {rowInEdit ? (
                     <select
                       value={d.status}
-                      onChange={(e) => updateDraft(c.id, "status", e.target.value)}
+                      onChange={(e) =>
+                        updateDraft(c.id, "status", e.target.value)
+                      }
                     >
                       {ConnectionStatusesList.map((s) => (
-                        <option key={s} value={s}>{s}</option>
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
                       ))}
                     </select>
                   ) : (
@@ -133,10 +147,14 @@ function MainPage() {
                   {rowInEdit ? (
                     <select
                       value={d.region}
-                      onChange={(e) => updateDraft(c.id, "region", e.target.value)}
+                      onChange={(e) =>
+                        updateDraft(c.id, "region", e.target.value)
+                      }
                     >
                       {RegionsList.map((r) => (
-                        <option key={r} value={r}>{r}</option>
+                        <option key={r} value={r}>
+                          {r}
+                        </option>
                       ))}
                     </select>
                   ) : (
@@ -148,7 +166,9 @@ function MainPage() {
                     <input
                       type="checkbox"
                       checked={d.enabled}
-                      onChange={(e) => updateDraft(c.id, "enabled", e.target.checked)}
+                      onChange={(e) =>
+                        updateDraft(c.id, "enabled", e.target.checked)
+                      }
                     />
                   ) : (
                     String(c.enabled)
@@ -158,13 +178,21 @@ function MainPage() {
                   <td>
                     {rowInEdit ? (
                       <>
-                        <button onClick={() => handleSaveRow(c.id)}>Save</button>
-                        <button onClick={() => handleCancelRow(c.id)}>Cancel</button>
+                        <button onClick={() => handleSaveRow(c.id)}>
+                          Save
+                        </button>
+                        <button onClick={() => handleCancelRow(c.id)}>
+                          Cancel
+                        </button>
                       </>
                     ) : (
-                      isEditing && <span>
-                        <button onClick={() => handleEditAgain(c.id)}>Edit</button>
-                      </span>
+                      isEditing && (
+                        <span>
+                          <button onClick={() => handleEditAgain(c.id)}>
+                            Edit
+                          </button>
+                        </span>
+                      )
                     )}
                   </td>
                 )}
@@ -174,13 +202,23 @@ function MainPage() {
         </tbody>
       </table>
 
-      <button onClick={() => { logout(); navigate("/"); }}>logout</button>
+      <button
+        onClick={() => {
+          logout();
+          navigate("/");
+        }}
+      >
+        logout
+      </button>
 
-      {isAdmin && !isEditing && (
-        <button onClick={startEditing}>Edit</button>
-      )}
+      {isAdmin && !isEditing && <button onClick={startEditing}>Edit</button>}
       {isAdmin && isEditing && (
-        <button onClick={() => { setIsEditing(false); setDrafts({}); }}>
+        <button
+          onClick={() => {
+            setIsEditing(false);
+            setDrafts({});
+          }}
+        >
           Done
         </button>
       )}
