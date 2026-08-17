@@ -103,7 +103,9 @@ label {
   background: #fff;
 }
 
+.form-container .actions button,
 .form-container form button {
+  width: 100%;
   height: 3.2em;
   margin-top: 2em;
   font: inherit;
@@ -121,6 +123,7 @@ label {
   background: var(--button-bg-hover);
 }
 
+.form-container .actions button.secondary-button,
 .form-container form button.secondary-button {
   margin-top: 0.5em;
   color: var(--button-bg);
@@ -128,6 +131,7 @@ label {
   border: 1px solid var(--button-bg);
 }
 
+.form-container .actions button.secondary-button:hover,
 .form-container form button.secondary-button:hover {
   color: #fff;
   background: var(--button-bg);
@@ -154,4 +158,116 @@ label {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0.4em;
+}
+
+.actions {
+  width: 100%;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 1em;
+  background-color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  font-size: 0.9em;
+}
+
+thead th {
+  text-align: left;
+  padding: 0.9em 1.2em;
+  font-family: var(--heading);
+  font-weight: 600;
+  font-size: 0.85em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-h);
+  background: var(--input-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+tbody th,
+tbody td {
+  padding: 0.7em 1.2em;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+tbody th {
+  font-weight: 600;
+  text-align: left;
+}
+
+tbody tr:last-child th,
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: rgba(61, 90, 254, 0.04);
+}
+
+table select,
+table input[type="text"],
+table input:not([type="checkbox"]) {
+  height: 2.2em;
+  padding: 0 0.8em;
+  font: inherit;
+  font-size: 0.9em;
+  color: var(--text);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 8em;
+}
+
+table select:focus,
+table input:focus {
+  outline: none;
+  border-color: var(--text-h);
+  background: #fff;
+}
+
+table input[type="checkbox"] {
+  width: 1.1em;
+  height: 1.1em;
+  accent-color: var(--button-bg);
+  cursor: pointer;
+}
+
+table button {
+  height: 2.4em;
+  padding: 0 1em;
+  margin-right: 0.4em;
+  font: inherit;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #fff;
+  background: var(--button-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+table button:hover {
+  background: var(--button-bg-hover);
+}
+
+table button:last-child {
+  margin-right: 0;
+  color: var(--button-bg);
+  background: #fff;
+  border: 1px solid var(--button-bg);
+}
+
+table button:last-child:hover {
+  color: #fff;
+  background: var(--button-bg);
 }

@@ -74,8 +74,8 @@ function MainPage() {
   };
 
   return (
-    <div>
-      <h1>Main Page</h1>
+    <div className="form-container">
+      <h1>Network Connections</h1>
       <table>
         <thead>
           <tr>
@@ -175,53 +175,54 @@ function MainPage() {
                   )}
                 </td>
                 {isAdmin && (
-                  <td>
+                  <>
                     {rowInEdit ? (
-                      <>
+                      <td>
                         <button onClick={() => handleSaveRow(c.id)}>
                           Save
                         </button>
                         <button onClick={() => handleCancelRow(c.id)}>
                           Cancel
                         </button>
-                      </>
+                      </td>
                     ) : (
                       isEditing && (
-                        <span>
+                        <td>
                           <button onClick={() => handleEditAgain(c.id)}>
                             Edit
                           </button>
-                        </span>
+                        </td>
                       )
                     )}
-                  </td>
+                  </>
                 )}
               </tr>
             );
           })}
         </tbody>
       </table>
-
-      <button
-        onClick={() => {
-          logout();
-          navigate("/");
-        }}
-      >
-        logout
-      </button>
-
-      {isAdmin && !isEditing && <button onClick={startEditing}>Edit</button>}
-      {isAdmin && isEditing && (
+      <div className="actions">
+        {isAdmin && !isEditing && <button onClick={startEditing}>Edit</button>}
+        {isAdmin && isEditing && (
+          <button
+            onClick={() => {
+              setIsEditing(false);
+              setDrafts({});
+            }}
+          >
+            Done
+          </button>
+        )}
         <button
+          className="secondary-button"
           onClick={() => {
-            setIsEditing(false);
-            setDrafts({});
+            logout();
+            navigate("/");
           }}
         >
-          Done
+          logout
         </button>
-      )}
+      </div>
     </div>
   );
 }
