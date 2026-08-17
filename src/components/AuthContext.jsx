@@ -5,9 +5,10 @@ import { sendOTP, verifyOTP } from "../services/mfaService.jsx";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(
-    () => localStorage.getItem("loggedIn") || null,
-  );
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("loggedIn");
+    return stored ? JSON.parse(stored) : null;
+  });
   const [pendingUser, setPendingUser] = useState(null);
   const [otp, setOtp] = useState(null);
   const [usersList, setUsersList] = useState(() => {
@@ -60,7 +61,7 @@ export function AuthProvider({ children }) {
     }
 
     setUser(pendingUser);
-    localStorage.setItem("loggedIn", JSON.stringify(user));
+    localStorage.setItem("loggedIn", JSON.stringify(pendingUser));
     setPendingUser(null);
     setOtp(null);
     return { success: true };
@@ -97,7 +98,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        user, 
+        user,
         pendingUser,
         usersList,
         login,

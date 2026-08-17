@@ -13,10 +13,11 @@ function MainPage() {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   const [connections, setConnections] = useState(mockConnections);
-  const [isEditing, setIsEditing] = useState(false); // global: are we in "edit mode" at all
-  const [drafts, setDrafts] = useState({}); // id -> draft object, only for rows still being edited
+  const [isEditing, setIsEditing] = useState(false); 
+  const [drafts, setDrafts] = useState({}); 
 
   const isAdmin = user?.role === ROLES.ADMIN;
+  console.log(user.role);
 
   const startEditing = () => {
     const initalConnections = Object.fromEntries(
