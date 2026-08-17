@@ -1,27 +1,27 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ROLES, RolesList } from "../data/users.jsx";
 import { useAuth } from "../components/AuthContext.jsx";
 
 function SignupPage() {
+  const navigate = useNavigate();
   const [role, setRole] = useState(ROLES.GUEST);
   const [error, setError] = useState("");
   const { signup } = useAuth();
 
   const handleSignup = (username, password, role) => {
     if (!username || !password) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
 
-    const result =  signup(username, password, role); // updates context and localStorage
+    const result = signup(username, password, role); // updates context and localStorage
     if (!result.success) {
-      alert(result.error);
+      setError(result.error);
       return;
     } else {
-      alert("Signup successful! Please login.");
+      setError("Signup successful! Please login.");
     }
-
-    
   };
 
   return (
@@ -31,20 +31,26 @@ function SignupPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            const formData = new FormData(e.currentTarget);
             handleSignup(
-              e.target.username.value,
-              e.target.password.value,
+              formData.get("username"),
+              formData.get("password"),
               role,
             );
           }}
         >
-          <label>Username:</label>
-          <input type="text" name="username" required />
-          <label>Password:</label>
-          <input type="password" name="password" required />
-          <label>Role:</label>
-          <select value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="cate" disabled>
+          <label htmlFor="username">Username:</label>
+          <input id="username" name="username" required type="text" />
+          <label htmlFor="password">Password:</label>
+          <input id="password" name="password" required type="password" />
+          <label htmlFor="role">Role:</label>
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="" disabled>
               Roles
             </option>
             {RolesList.map((r) => (
@@ -54,9 +60,10 @@ function SignupPage() {
             ))}
           </select>
           <button type="submit">Signup</button>
+          {error && <p role="alert">{error}</p>}
         </form>
       </div>
-      <button type="submit" onClick={() => (window.location.hash = "/")}>
+      <button type="submit" onClick={() => navigate("/")}>
         Login
       </button>
     </>
