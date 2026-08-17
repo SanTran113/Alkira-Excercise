@@ -25,8 +25,8 @@ function LoginPage() {
 
   return (
     <>
-      <h1>Login Page</h1>
       <div className="form-container">
+        <h1>Login</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -34,17 +34,24 @@ function LoginPage() {
             handleLogin(formData.get("username"), formData.get("password"));
           }}
         >
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required />
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" required />
+          <section>
+            <label htmlFor="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </section>
+          <section>
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </section>
           <button type="submit">Login</button>
           {error && <p role="alert">{error}</p>}
+          <div className="footer">
+            or
+            <a type="button" onClick={() => navigate("/signup")}>
+              signup
+            </a>
+          </div>
         </form>
       </div>
-      <button type="button" onClick={() => navigate("/signup")}>
-        Signup
-      </button>
     </>
   );
 }

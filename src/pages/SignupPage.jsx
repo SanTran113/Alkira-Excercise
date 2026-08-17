@@ -26,8 +26,8 @@ function SignupPage() {
 
   return (
     <>
-      <h1>Signup Page</h1>
       <div className="form-container">
+        <h1>Signup</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -39,11 +39,15 @@ function SignupPage() {
             );
           }}
         >
-          <label htmlFor="username">Username:</label>
-          <input id="username" name="username" required type="text" />
-          <label htmlFor="password">Password:</label>
-          <input id="password" name="password" required type="password" />
-          <label htmlFor="role">Role:</label>
+          <section>
+            <label htmlFor="username">Username</label>
+            <input id="username" name="username" required type="text" />
+          </section>
+          <section>
+            <label htmlFor="password">Password</label>
+            <input id="password" name="password" required type="password" />
+          </section>
+          <label htmlFor="role">Role</label>
           <select
             id="role"
             name="role"
@@ -61,11 +65,14 @@ function SignupPage() {
           </select>
           <button type="submit">Signup</button>
           {error && <p role="alert">{error}</p>}
+          <div className="footer">
+            or
+            <a type="button" onClick={() => navigate("/")}>
+              login
+            </a>
+          </div>
         </form>
       </div>
-      <button type="submit" onClick={() => navigate("/")}>
-        Login
-      </button>
     </>
   );
 }

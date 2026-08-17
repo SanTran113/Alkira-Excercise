@@ -9,7 +9,7 @@ function MfaPage() {
   const { user, pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } =
     useAuth();
   const hasSentCode = useRef(false);
-  
+
   useEffect(() => {
     if (!pendingUser && !user) {
       cancelMfa();
@@ -52,13 +52,12 @@ function MfaPage() {
 
   return (
     <>
-      <div>
-        <h1>MFA Page</h1>
-        {code && (
-          <div>
-            Code: <p id="code">{code}</p>
-          </div>
-        )}
+      <div className="form-container">
+        <h1>Multi-Factor Authentication</h1>
+        <div className="code">
+          <label>Code:</label>
+          {code && <p id="code">{code}</p>}
+        </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -66,7 +65,7 @@ function MfaPage() {
             handleVerifyMfaCode(formData.get("otpCode"));
           }}
         >
-          <label htmlFor="otpCode">Input Code:</label>
+          <label htmlFor="otpCode">Input Code</label>
           <input
             id="otpCode"
             name="otpCode"
@@ -77,9 +76,20 @@ function MfaPage() {
           />
           {error && <p id="error-text">{error}</p>}
           <button type="submit">Verify</button>
+          <button
+            className="secondary-button"
+            type="submit"
+            onClick={handleSendCode}
+          >
+            Resend Code
+          </button>
+          <div className="footer">
+            or
+            <a type="button" onClick={handleCancelMfa}>
+              cancel
+            </a>
+          </div>
         </form>
-        <button type="submit" onClick={handleSendCode}>Resend Code</button>
-        <button type="submit" onClick={handleCancelMfa}>Cancel</button>
       </div>
     </>
   );
