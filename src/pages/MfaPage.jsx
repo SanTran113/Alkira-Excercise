@@ -85,9 +85,9 @@ function MfaPage() {
           </button>
           <div className="footer">
             or
-            <a type="button" onClick={handleCancelMfa}>
+            <button className="link" type="button" onClick={handleCancelMfa}>
               cancel
-            </a>
+            </button>
           </div>
         </form>
       </div>

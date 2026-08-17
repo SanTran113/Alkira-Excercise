@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1786948649952" clover="3.2.0">
-  <project timestamp="1786948649952" name="All files">
+<coverage generated="1786960597090" clover="3.2.0">
+  <project timestamp="1786960597090" name="All files">
     <metrics statements="210" coveredstatements="205" conditionals="88" coveredconditionals="86" methods="70" coveredmethods="67" elements="368" coveredelements="358" complexity="0" loc="210" ncloc="210" packages="5" files="10" classes="10"/>
     <package name="components">
       <metrics statements="61" coveredstatements="61" conditionals="20" coveredconditionals="20" methods="15" coveredmethods="15"/>
@@ -112,7 +112,7 @@
         <line num="32" count="5" type="stmt"/>
         <line num="33" count="5" type="stmt"/>
         <line num="34" count="5" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
       </file>
       <file name="MainPage.jsx" path="C:\Users\sandw\Alkira OA\Alkira-Excercise\src\pages\MainPage.jsx">
         <metrics statements="54" coveredstatements="51" conditionals="30" coveredconditionals="29" methods="32" coveredmethods="29"/>
@@ -166,10 +166,10 @@
         <line num="181" count="3" type="stmt"/>
         <line num="184" count="1" type="stmt"/>
         <line num="191" count="1" type="stmt"/>
-        <line num="207" count="1" type="stmt"/>
-        <line num="208" count="1" type="stmt"/>
-        <line num="218" count="1" type="stmt"/>
+        <line num="209" count="1" type="stmt"/>
+        <line num="210" count="1" type="stmt"/>
         <line num="219" count="1" type="stmt"/>
+        <line num="220" count="1" type="stmt"/>
       </file>
       <file name="MfaPage.jsx" path="C:\Users\sandw\Alkira OA\Alkira-Excercise\src\pages\MfaPage.jsx">
         <metrics statements="33" coveredstatements="31" conditionals="16" coveredconditionals="15" methods="7" coveredmethods="7"/>
@@ -203,9 +203,9 @@
         <line num="49" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
         <line num="53" count="18" type="stmt"/>
+        <line num="63" count="4" type="stmt"/>
         <line num="64" count="4" type="stmt"/>
         <line num="65" count="4" type="stmt"/>
-        <line num="66" count="4" type="stmt"/>
       </file>
       <file name="SignupPage.jsx" path="C:\Users\sandw\Alkira OA\Alkira-Excercise\src\pages\SignupPage.jsx">
         <metrics statements="20" coveredstatements="20" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="6"/>
@@ -226,9 +226,9 @@
         <line num="33" count="3" type="stmt"/>
         <line num="34" count="3" type="stmt"/>
         <line num="35" count="3" type="stmt"/>
-        <line num="51" count="1" type="stmt"/>
-        <line num="57" count="18" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="61" count="18" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
       </file>
     </package>
     <package name="services">

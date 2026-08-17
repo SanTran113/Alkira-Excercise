@@ -144,7 +144,7 @@ describe("MfaPage (real AuthContext, end to end)", () => {
     await user.type(screen.getByLabelText(/password/i), "1");
     await user.click(screen.getByRole("button", { name: /^login$/i }));
 
-    expect(await screen.findByText(/MFA Page/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Multi-Factor Authentication/i)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(document.querySelector("#code")).toBeInTheDocument();

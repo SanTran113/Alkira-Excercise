@@ -67,9 +67,9 @@ function SignupPage() {
           {error && <p role="alert">{error}</p>}
           <div className="footer">
             or
-            <a type="button" onClick={() => navigate("/")}>
+            <button className="link" type="button" onClick={() => navigate("/")}>
               login
-            </a>
+            </button>
           </div>
         </form>
       </div>
