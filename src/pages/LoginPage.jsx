@@ -1,24 +1,26 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext.jsx";
 
 function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [error, setError] = useState("");
 
   const handleLogin = (username, password) => {
     if (!username || !password) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
 
     const result = login(username, password); // updates context and localStorage
     if (!result.success) {
-      alert(result.error);
+      setError(result.error);
       return;
-    } else {
-      navigate("/mfa");
     }
-    
+
+    setError("");
+    navigate("/mfa");
   };
 
   return (
@@ -28,7 +30,8 @@ function LoginPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleLogin(e.target.username.value, e.target.password.value);
+            const formData = new FormData(e.currentTarget);
+            handleLogin(formData.get("username"), formData.get("password"));
           }}
         >
           <label htmlFor="username">Username:</label>
@@ -36,9 +39,10 @@ function LoginPage() {
           <label htmlFor="password">Password:</label>
           <input type="password" id="password" name="password" required />
           <button type="submit">Login</button>
+          {error && <p role="alert">{error}</p>}
         </form>
       </div>
-      <button type="submit" onClick={() => (window.location.hash = "/signup")}>
+      <button type="button" onClick={() => navigate("/signup")}>
         Signup
       </button>
     </>

@@ -4,6 +4,7 @@ import { useAuth } from "../components/AuthContext.jsx";
 
 function SignupPage() {
   const [role, setRole] = useState(ROLES.GUEST);
+  const [error, setError] = useState("");
   const { signup } = useAuth();
 
   const handleSignup = (username, password, role) => {
