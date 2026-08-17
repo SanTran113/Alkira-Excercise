@@ -1,22 +1,19 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
+  --text: #0b0a0b;
+  --text-h: #2b56f0;
+  --bg: linear-gradient(#cbedff, #fff);
   --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --input-bg: #eef0f2;
+  --input-border: #e3e6ea;
+  --button-bg: #3d5afe;
+  --button-bg-hover: #2f47d1;
+
+  --sans: "Montserrat", system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: "Montserrat", system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -24,30 +21,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
 }
 
 body {
@@ -55,57 +28,253 @@ body {
 }
 
 #root {
-  width: 1126px;
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
   border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 }
 
-h1,
-h2 {
+h1 {
+  font-size: 2em;
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-h);
+  letter-spacing: -0.3px;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
 p {
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: fit-content;
+  padding: 4em;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--border);
+  border-radius: 0.5em;
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.form-container h1 {
+  margin: 0 0 1em;
+  text-align: left;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.6em;
+}
+
+label {
+  margin-bottom: 0.1em;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.form-container form select,
+.form-container form input {
+  height: 2.5em;
+  padding: 0 1em;
+  font: inherit;
+  font-size: 0.8em;
+  color: var(--text);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  width: 30em;
+}
+
+.form-container form input:focus {
+  outline: none;
+  border-color: var(--text-h);
+  background: #fff;
+}
+
+.form-container .actions button,
+.form-container form button {
+  width: 100%;
+  height: 3.2em;
+  margin-top: 2em;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--button-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.form-button:hover {
+  background: var(--button-bg-hover);
+}
+
+.form-container .actions button.secondary-button,
+.form-container form button.secondary-button {
+  margin-top: 0.5em;
+  color: var(--button-bg);
+  background: #fff;
+  border: 1px solid var(--button-bg);
+}
+
+.form-container .actions button.secondary-button:hover,
+.form-container form button.secondary-button:hover {
+  color: #fff;
+  background: var(--button-bg);
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em;
+  gap: 0.4em;
+  cursor: pointer;
+}
+
+.form-container form .link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--text-h);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  width: fit-content;
+}
+
+.code {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.4em;
+}
+
+.actions {
+  width: 100%;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 1em;
+  background-color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  font-size: 0.9em;
+}
+
+thead th {
+  text-align: left;
+  padding: 0.9em 1.2em;
+  font-family: var(--heading);
+  font-weight: 600;
+  font-size: 0.85em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-h);
+  background: var(--input-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+tbody th,
+tbody td {
+  padding: 0.7em 1.2em;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+tbody th {
+  font-weight: 600;
+  text-align: left;
+}
+
+tbody tr:last-child th,
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: rgba(61, 90, 254, 0.04);
+}
+
+table select,
+table input[type="text"],
+table input:not([type="checkbox"]) {
+  height: 2.2em;
+  padding: 0 0.8em;
+  font: inherit;
+  font-size: 0.9em;
+  color: var(--text);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 8em;
+}
+
+table select:focus,
+table input:focus {
+  outline: none;
+  border-color: var(--text-h);
+  background: #fff;
+}
+
+table input[type="checkbox"] {
+  width: 1.1em;
+  height: 1.1em;
+  accent-color: var(--button-bg);
+  cursor: pointer;
+}
+
+table button {
+  height: 2.4em;
+  padding: 0 1em;
+  margin-right: 0.4em;
+  font: inherit;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #fff;
+  background: var(--button-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+table button:hover {
+  background: var(--button-bg-hover);
+}
+
+table button:last-child {
+  margin-right: 0;
+  color: var(--button-bg);
+  background: #fff;
+  border: 1px solid var(--button-bg);
+}
+
+table button:last-child:hover {
+  color: #fff;
+  background: var(--button-bg);
 }
