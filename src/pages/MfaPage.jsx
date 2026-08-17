@@ -9,9 +9,7 @@ function MfaPage() {
   const { user, pendingUser, requestMfaCode, verifyMfaCode, cancelMfa } =
     useAuth();
   const hasSentCode = useRef(false);
-
-  console.log("code", code);
-
+  
   useEffect(() => {
     if (!pendingUser && !user) {
       cancelMfa();
@@ -64,23 +62,24 @@ function MfaPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleVerifyMfaCode(e.target.otpCode.value);
+            const formData = new FormData(e.currentTarget);
+            handleVerifyMfaCode(formData.get("otpCode"));
           }}
         >
-          <label>Input Code:</label>
+          <label htmlFor="otpCode">Input Code:</label>
           <input
-            type="text"
             id="otpCode"
             name="otpCode"
             inputMode="numeric"
             maxLength={6}
             required
+            type="text"
           />
           {error && <p id="error-text">{error}</p>}
           <button type="submit">Verify</button>
         </form>
-        <button onClick={handleSendCode}>Resend Code</button>
-        <button onClick={handleCancelMfa}>Cancel</button>
+        <button type="submit" onClick={handleSendCode}>Resend Code</button>
+        <button type="submit" onClick={handleCancelMfa}>Cancel</button>
       </div>
     </>
   );
