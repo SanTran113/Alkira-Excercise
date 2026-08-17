@@ -1,14 +1,14 @@
 import { useAuth } from "./AuthContext";
 import LoginPage from "../pages/LoginPage";
 
-function ProtectedRoute({children}) {
-    const {user} = useAuth();
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
 
-    if (!user) {
-        return <LoginPage />;
-    }
+  if (!user) {
+    return <LoginPage />;
+  }
 
-    return children;
+  return children;
 }
 
 export default ProtectedRoute;
